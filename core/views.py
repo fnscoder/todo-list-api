@@ -9,9 +9,12 @@ class ListViewSet(ModelViewSet):
     """
     API endpoint that allows lists to be viewed or edited
     """
-    queryset = List.objects.all()
     serializer_class = ListSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return List.objects.filter(owner=user)
 
 
 class ItemViewSet(ModelViewSet):
