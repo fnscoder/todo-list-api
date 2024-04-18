@@ -12,7 +12,7 @@ class List(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=50)
-    owner = models.ForeignKey(List, on_delete=models.CASCADE)
+    owner = models.ForeignKey(List, on_delete=models.CASCADE, related_name="items")
     done = models.BooleanField(default=False)
 
     def __str__(self):

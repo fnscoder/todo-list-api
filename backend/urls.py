@@ -19,13 +19,14 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .views import UserViewSet, GroupViewSet
-from core.views import ListViewSet
+from core.views import ItemViewSet, ListViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
 router.register(r"groups", GroupViewSet)
 router.register(r"lists", ListViewSet)
+router.register(r"items", ItemViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
