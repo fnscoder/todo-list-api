@@ -6,14 +6,18 @@ The frontend project is available [here](https://github.com/fnscoder/todo-list-w
 
 ### How to run the API
 
-1. Create the virtual env
-2. Activate the virtual env
-3. Install the requirements
-4. Create the .env file
-5. Run the migrations
-6. Run the project
+1. Clone the project
+2. Enter on the project folder
+3. Create the virtual env
+4. Activate the virtual env
+5. Install the requirements
+6. Create the .env file
+7. Run the migrations
+8. Run the project
 
 ```bash
+git clone git@github.com:fnscoder/todo-list-api.git
+cd todo-list-api
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -21,3 +25,5 @@ cp contrib/.env-sample .env
 python manage.py migrate
 python manage.py run server
 ```
+
+The API will be running on [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)
