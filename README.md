@@ -4,7 +4,26 @@ API to create a TO DO list app with Django and React.
 
 The frontend project is available [here](https://github.com/fnscoder/todo-list-web)
 
-### How to run the API
+### How to run the API with docker compose (recommended)
+1. Clone the project
+2. Enter on the project folder
+3. Create the .env file
+4. Build the containers
+5. Run the containers
+6. Apply the migrations
+7. Create a superuser
+
+```bash
+git clone git@github.com:fnscoder/todo-list-api.git
+cd todo-list-api
+cp contrib/.env-sample .env
+docker compose buld
+docker compose up
+docker compose exec app python manage.py migrate
+docker compose exec -it app python manage.py createsuperuser
+```
+
+### How to run the API locally
 
 1. Clone the project
 2. Enter on the project folder
@@ -28,7 +47,9 @@ python manage.py run server
 
 The API will be running on [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)
 
-### Running with Dockerfile and postgres
+### How to run the API with Dockerfile and postgres
+
+First clone the project and create the .env file
 
 1. Create a network
 2. Create postgres volume
