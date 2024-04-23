@@ -27,3 +27,26 @@ python manage.py run server
 ```
 
 The API will be running on [`http://127.0.0.1:8000/`](http://127.0.0.1:8000/)
+
+### Running with Dockerfile and postgres
+
+1. Create a network
+2. Create postgres volume
+3. Run postgres with docker on the network created
+4. Build the image
+5. Check the DATABASE_URL on your .env file
+6. Run the app container on the network created
+7. Run the migrations inside the app container
+8. On the next time just start the postgres and backend container instead of using the `run` command again
+
+```bash
+docker network create backend-network
+docker volume create postgres
+docker run --network=backend-network --name postgres -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_USER=backend -p 5432:5432 -v postgres:/var/lib/postgresql/data postgres
+docker build .
+DATABASE_URL=postgres://backend:mysecretpassword@postgres:5432/backend
+docker run --network=backend-network --name backend --env-file=.env --publish 8000:8000 <image_id>
+docker exec -it backend python manage.py migrate
+docker start postgres
+docker start backend
+```
