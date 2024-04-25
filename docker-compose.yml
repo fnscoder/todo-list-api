@@ -9,7 +9,7 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - .:/app
+      - .:/code
 
   postgres:
     image: postgres:16

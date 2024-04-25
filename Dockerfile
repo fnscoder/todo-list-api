@@ -1,19 +1,34 @@
-FROM python:3.11.4-slim-buster
+ARG PYTHON_VERSION=3.11-slim-bullseye
 
-# Set environment varibles
+FROM python:${PYTHON_VERSION}
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set work directory
-WORKDIR /app
+# install psycopg2 dependencies.
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-COPY requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN mkdir -p /code
 
-# Copy project to inside /app
-COPY . .
+WORKDIR /code
+
+COPY requirements.txt /tmp/requirements.txt
+RUN set -ex && \
+    pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt && \
+    rm -rf /root/.cache/
+COPY . /code
+
+# Envs for building purposes
+ENV SECRET_KEY "non-secret-key-for-building-purposes"
+ENV CORS_ALLOWED_ORIGINS "http://localhost:3000"
+ENV ALLOWED_HOSTS = "http://localhost"
+ENV CSRF_TRUSTED_ORIGINS = "http://localhost"
+
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
