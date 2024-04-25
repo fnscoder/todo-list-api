@@ -1,16 +1,17 @@
 from rest_framework import serializers
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 from .models import Item, List
 
 
-class ItemSerializer(serializers.HyperlinkedModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ["id", "name", "done", "url"]
+        fields = ["id", "name", "list", "done"]
 
 
-class ListSerializer(serializers.HyperlinkedModelSerializer):
+class ListSerializer(WritableNestedModelSerializer):
     items = ItemSerializer(many=True)
     class Meta:
         model = List
-        fields = ["id", "name", "owner", "url", "items"]
+        fields = ["id", "name", "owner", "items"]
